@@ -33,6 +33,7 @@ import com.quasistellar.oldspeedrunpixeldungeon.items.Item;
 import com.quasistellar.oldspeedrunpixeldungeon.items.artifacts.Artifact;
 import com.quasistellar.oldspeedrunpixeldungeon.items.journal.GuidePage;
 import com.quasistellar.oldspeedrunpixeldungeon.items.keys.GoldenKey;
+import com.quasistellar.oldspeedrunpixeldungeon.items.wands.WandOfLightning;
 import com.quasistellar.oldspeedrunpixeldungeon.journal.Document;
 import com.quasistellar.oldspeedrunpixeldungeon.levels.builders.Builder;
 import com.quasistellar.oldspeedrunpixeldungeon.levels.builders.LoopBuilder;
@@ -345,16 +346,29 @@ public abstract class RegularLevel extends Level {
 				losBlocking[cell] = false;
 			}
 		}
-		
-		Item item = Bones.get();
-		if (item != null) {
+
+		// Substitutes regular Bones drop
+		if (Dungeon.depth == 1) {
+			WandOfLightning remains = new WandOfLightning();
+			remains.level(3);
+			remains.cursed = true;
 			int cell = randomDropCell();
 			if (map[cell] == Terrain.HIGH_GRASS) {
 				map[cell] = Terrain.GRASS;
 				losBlocking[cell] = false;
 			}
-			drop( item, cell ).type = Heap.Type.REMAINS;
+			drop( remains, cell ).type = Heap.Type.REMAINS;
 		}
+
+//		Item item = Bones.get();
+//		if (item != null) {
+//			int cell = randomDropCell();
+//			if (map[cell] == Terrain.HIGH_GRASS) {
+//				map[cell] = Terrain.GRASS;
+//				losBlocking[cell] = false;
+//			}
+//			drop( item, cell ).type = Heap.Type.REMAINS;
+//		}
 
 		//guide pages
 		Collection<String> allPages = Document.ADVENTURERS_GUIDE.pages();
